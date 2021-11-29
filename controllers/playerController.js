@@ -9,9 +9,13 @@ const playerController = {
         });
 		res.render('players/index', { players: players });
     },
+    show: (req, res) => {
+        const player = playerService.findOne(req.params.id);
+		res.render('players/show', {player: player});
+    },
     edit: (req, res) => {
         const player = playerService.findOne(req.params.id);
-		res.render(`players/edit`, {player: player});
+		res.render('players/edit', {player: player});
     },
     update: (req, res) => {
         const player = { ...req.body };
