@@ -13,7 +13,7 @@
 				<h2>Formulario para modificar jugador</h2>
 			</div>
         </div>
-        <form action=<%=`/players/${player.id}?_method=PUT`%>  method="POST" class="mt-4">
+        <form action=<%=`/players/${player.id}?_method=PUT`%>  method="POST" class="mt-4" enctype="multipart/form-data">
 		    <div class="col-12 border rounded">
                     <div class="form-row row m-2">
                       <h4>Equipo ganador</h4>
@@ -25,6 +25,9 @@
                       </div>
                       <div class="col">
                         <input name="total_played" type="text" class="form-control" placeholder="Total partidos" value="<%=player.total_played%>">
+                      </div>
+                      <div class="col">
+                        <input name="avatar" type="file" class="form-control" placeholder="Avatar" >
                       </div>
                     </div>
 		        </div>
