@@ -25,12 +25,12 @@
                   <td><%= player.difference %></td>
                   <td><%= player.total_played %></td>
                   <td>
-                      <form action=<%=`players/${player.id}?_method=DELETE`%> method="POST">
+                      <form action=<%=`/players/${player.id}?_method=DELETE`%> method="POST">
                           <button class="btn btn-danger">
                             Eliminar jugador
                           </button> 
-                          <a class="btn btn-primary" href=<%=`players/${player.id}/edit`%> >
-                              Modificar Jugador
+                          <a class="btn btn-primary" href=<%=`/players/${player.id}/edit`%> >
+                            Modificar Jugador
                           </a>
                       </form>
                   </td>
