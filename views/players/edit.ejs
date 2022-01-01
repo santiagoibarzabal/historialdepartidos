@@ -16,7 +16,7 @@
         <form action=<%=`/players/${player.id}?_method=PUT`%>  method="POST" class="mt-4" enctype="multipart/form-data">
 		    <div class="col-12 border rounded">
                     <div class="form-row row m-2">
-                      <h4>Equipo ganador</h4>
+                      <h4>Jugador</h4>
                       <div class="col">
                         <input name="name" type="text" class="form-control" placeholder="Nombre" value="<%=player.name%>" >
                       </div>
@@ -26,9 +26,15 @@
                       <div class="col">
                         <input name="total_played" type="text" class="form-control" placeholder="Total partidos" value="<%=player.total_played%>">
                       </div>
-                      <div class="col">
+                    </div>
+                    <div class="form-row row m-2">
+                        <h5>Imagen</h5>
+                        <div class="col-6">
                         <input name="avatar" type="file" class="form-control" placeholder="Avatar" >
-                      </div>
+                        </div>
+                        <% if(player.avatar) { %> 
+                            <img class="col-2" src="<%=`/images/${player.avatar}`%>" alt="">
+                        <% } %> 
                     </div>
 		        </div>
             </div>
