@@ -3,7 +3,7 @@ const path = require('path');
 const methodOverride =  require('method-override');
 
 const app = express();
-app.use(express.static(path.join(__dirname, '../public'))); 
+app.use(express.static(path.join(__dirname, './public'))); 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(methodOverride('_method'));
@@ -15,7 +15,9 @@ app.listen(3000);
 
 const matchesRouter = require('./routes/matches');
 const playersRouter = require('./routes/players');
+const homeRouter = require('./routes/home');
 
+app.get('/', homeRouter);
 app.use('/matches', matchesRouter);
 app.use('/players', playersRouter);
 
