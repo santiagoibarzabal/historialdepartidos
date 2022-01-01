@@ -1,29 +1,38 @@
 const playersService = require('../services/players');
-const { saveDataToFile } = require('../lib/jsonHelper');
+const db = require('../database/models');
 
-const playersData = playersService.findAll(); 
-
-const saveMatchData = (players, difference) => {
-    const existingPlayers = [];
+const saveMatchData = async (players, difference) => {
     for (const key in players) {
-        const existingPlayer = playersData.find((player) => player.name == players[key]);
+        const existingPlayer = await playersService.findByName(players[key]);
         const playerIsWinner = key.indexOf('winner') != -1;
         const netDifference = playerIsWinner ? difference : -difference;
         if (existingPlayer) {
             existingPlayer.difference = existingPlayer.difference + netDifference;
             existingPlayer.total_played = existingPlayer.total_played + 1;
-            existingPlayers.push(existingPlayer);
+            db.Players.update({
+                difference: existingPlayer.difference,
+                total_played: existingPlayer.total_played,
+            }, 
+            {
+                where: {
+                    id: existingPlayer.id
+                }
+            })
+            .catch(error => {
+                console.log(error);  
+              });;
         }
         if (!existingPlayer) {
-            playersData.push({
-                id: playersData.length + 1,
+            db.Players.create({
                 name: players[key],
                 difference: netDifference, 
                 total_played: 1
+            })
+            .catch(error => {
+              console.log(error);  
             });
         }
     }      
-    saveDataToFile(playersData, 'PlayersDatabase');
 }
 
 module.exports = {

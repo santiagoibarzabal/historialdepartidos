@@ -1,35 +1,42 @@
-const { getDataByFilename } = require('../lib/jsonHelper');
-const { saveDataToFile } = require('../lib/jsonHelper');
+const db = require('../database/models');
 
-const players = getDataByFilename('PlayersDatabase'); 
 
-const findAll = () => {
-    return players;
-}
+const playersService = {
+    findAll: () => {
+        return db.Players.findAll({
+            order: [
+                [`difference`, 'DESC'],
+            ]
+        });
+    },
+    findOne: (id) => {
+        return db.Players.findByPk(id);
+    },
+    findByName: (name) => {
+        return db.Players.findOne({where: { name: name }})
+    },
+    updatePlayerData: (player) => {
+        return db.Players.findOne({where: { name: player.name }})
+        .then((result) => {
+            db.Players.update({
+                difference: Number(player.difference),
+                total_played: player.total_played,
+                avatar: player.avatar,
+            },{
+                where: {
+                    id: result.id
+                }
+            })
 
-const findOne = (id) => {
-    return players.find((one) => one.id == id);
-}
-
-const updatePlayerData = (player) => {
-    const playerToUpdate = players.find((player) => player.name == player.name);
-    if (playerToUpdate) {
-        playerToUpdate.difference = Number(player.difference);
-        playerToUpdate.total_played = player.total_played;;
+        })
+    },
+    deletePlayer: (playerId) => {
+        return db.Players.destroy({
+            where: {
+                id: playerId
+            }
+        });
     }
-    saveDataToFile(players, 'PlayersDatabase');
 }
 
-const deletePlayer = (playerId) => {
-    const index = players.find((player) => player.id == playerId);
-    players.splice(index, 1);
-    saveDataToFile(players, 'PlayersDatabase');
-}
-
-
-module.exports = {
-    updatePlayerData, 
-    deletePlayer, 
-    findOne, 
-    findAll
-}
+module.exports = playersService;

@@ -12,8 +12,7 @@ const matchController = {
         const difference = Number(req.body.difference);
         
         matchService.saveMatchData(players, difference);
-        
-        res.redirect('/players');
+        res.redirect('/');
     }
 };
 
