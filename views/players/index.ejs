@@ -10,17 +10,18 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                  <th scope="col">#</th>
+                  <th scope="col">ID</th>
                   <th scope="col">Nombre</th>
                   <th scope="col">Dif. Puntos</th>
                   <th scope="col">Jugados</th>
                   <th scope="col">Acciones</th>
+                  
                 </tr>
               </thead>
               <tbody>
                 <% players.forEach((player, i) => { %> 
                 <tr>
-                  <th scope="row"><%= i + 1 %></th>
+                <th scope="row"><a href="<%=`/players/${player.id}`%>"><%= player.id %></a></th>
                   <td><%= player.name %> </td>
                   <td><%= player.difference %></td>
                   <td><%= player.total_played %></td>
