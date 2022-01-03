@@ -8,7 +8,7 @@ module.exports = (sequelize, dataTypes) => {
             allowNull: false
         },
         date: {
-            type: dataTypes.STRING, 
+            type: dataTypes.DATE, 
             allowNull: false
         },
         created_at: {
@@ -27,7 +27,7 @@ module.exports = (sequelize, dataTypes) => {
     Match.associate = (models) => {
         Match.belongsToMany(models.Players,{
             as: 'players', 
-            through: 'match_player',
+            through: models.MatchPlayer,
             foreignKey: 'match_id',
             otherKey: 'player_id', 
             timestamps: false,

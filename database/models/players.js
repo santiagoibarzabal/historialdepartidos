@@ -39,9 +39,9 @@ module.exports = (sequelize, dataTypes) => {
     Player.associate = (models) => {
         Player.belongsToMany(models.Matches,{
             as: 'matches', 
-            through: 'match_player',
-            foreignKey: 'match_id',
-            otherKey: 'player_id', 
+            through: models.MatchPlayer,
+            foreignKey: 'player_id',
+            otherKey: 'match_id', 
             timestamps: false,
         })
     }
