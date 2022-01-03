@@ -9,9 +9,10 @@ const matchController = {
             ...req.body
         } 
         delete players.difference;
+        delete players.date;
         const difference = Number(req.body.difference);
-        
-        matchService.saveMatchData(players, difference);
+        const date = req.body.date;
+        matchService.saveMatchData(players, difference, date);
         res.redirect('/');
     }
 };
