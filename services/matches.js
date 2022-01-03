@@ -1,40 +1,26 @@
 const playersService = require('../services/players');
+const dayjs = require('dayjs');
+
 const db = require('../database/models');
 
-const saveMatchData = async (players, difference) => {
-    for (const key in players) {
-        const existingPlayer = await playersService.findByName(players[key]);
-        const playerIsWinner = key.indexOf('winner') != -1;
-        const netDifference = playerIsWinner ? difference : -difference;
-        if (existingPlayer) {
-            existingPlayer.difference = existingPlayer.difference + netDifference;
-            existingPlayer.total_played = existingPlayer.total_played + 1;
-            db.Players.update({
-                difference: existingPlayer.difference,
-                total_played: existingPlayer.total_played,
-            }, 
-            {
-                where: {
-                    id: existingPlayer.id
-                }
+const saveMatchData = async (players, difference, date) => {
+        const match = await db.Matches.create({ date: date});
+        for (const key in players) {
+            const netDifference = key.indexOf('winner') != -1 ? difference : -difference;
+            const player = await playersService.savePlayerData(players, key, netDifference);
+            db.MatchPlayer.create({
+                    match_id: match.id, 
+                    player_id: player.id,
+                    difference: netDifference
             })
-            .catch(error => {
-                console.log(error);  
-              });;
-        }
-        if (!existingPlayer) {
-            db.Players.create({
-                name: players[key],
-                difference: netDifference, 
-                total_played: 1
-            })
-            .catch(error => {
-              console.log(error);  
-            });
-        }
-    }      
-}
+        }; 
+};
+
+const findAll = () => {
+    return db.Matches.findAll();
+};
 
 module.exports = {
-    saveMatchData
+    saveMatchData, 
+    findAll,
 }
