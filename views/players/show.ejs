@@ -44,6 +44,28 @@
                                 </tr>
                               </tbody>
                         </table>
+                        <div class="row">
+                            <h4>Detalle partidos jugados</h4>
+                            <% player.matches.forEach((match) => { %>
+                                <div class="col border rounded mx-2 px-2">
+                                    <h5>Partido # <%=match.id%> </h5>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h6>Fecha</h6>
+                                            <%=match.date.toString().slice(0,16)%>
+                                        </div>
+                                       <!-- <div class="col-6">
+                                            <h6>Hora</h6>
+                                            // <%=match.date.toLocaleString().slice(11,19)%>
+                                       </div> -->
+                                    </div>
+                                    <div class="row mt-4">
+                                        <h6>Diferencia de puntos</p>
+                                        <%=match.MatchPlayer.difference%>  
+                                   </div>
+                                </div>
+                            <% }) %>
+                        </div>
                     </div>
 		        </div>
             </div>
