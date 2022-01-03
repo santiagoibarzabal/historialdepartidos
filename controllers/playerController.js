@@ -1,20 +1,23 @@
 const playersService  = require('../services/players');
 
+
 const playerController = {
 	index: (req, res) => {
         playersService.findAll()
             .then((players) => {
-                res.render('players/index', { players: players });
+                res.render('players/index', { 
+                    players: players, 
+                });
             });
     },
     show: (req, res) => {
-        playersService.findOne(req.params.id)
+        playersService.findByPk(req.params.id)
             .then((player) => {
                 res.render('players/show', {player: player});
             });
     },
     edit: (req, res) => {
-        playersService.findOne(req.params.id)
+        playersService.findByPk(req.params.id)
         .then((player) => {
             res.render('players/edit', {player: player});
         });
